@@ -1,0 +1,14 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>netcoreapp3.1</TargetFramework>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\ehr\Ehr.ProviderA\Ehr.ProviderA.csproj" />
+    <ProjectReference Include="..\ehr\Ehr.ProviderB\Ehr.ProviderB.csproj" />
+    <ProjectReference Include="..\Aggregator\Aggregator.csproj" />
+    <ProjectReference Include="..\..\external\DTO\DTO.csproj" />
+  </ItemGroup>
+
+</Project>
