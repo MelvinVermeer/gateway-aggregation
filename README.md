@@ -5,6 +5,8 @@ https://docs.microsoft.com/nl-nl/azure/architecture/patterns/gateway-aggregation
 
 ## How to run
 
+Make sure you have .net core 3.1
+
 ```
 git clone https://github.com/MelvinVermeer/gateway-aggregation.git
 cd .\gateway-aggregation\samples\client
