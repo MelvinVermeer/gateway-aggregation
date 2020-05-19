@@ -23,6 +23,8 @@ Afspraak met verpleging
 Afspraak met dokter
 ```
 
+> you can experiment by changing the strategy to `merge` in the `./src/Gateway/Config.cs`, then the order of the endpoints becomes relevant as well.
+
 ## Client
 
 this project is intended to represent the a webapplication.

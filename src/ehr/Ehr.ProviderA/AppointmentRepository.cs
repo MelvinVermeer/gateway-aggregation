@@ -12,7 +12,7 @@ namespace Ehr.ProviderA
             {
                 new Appointment
                 {
-                    Id = 2,
+                    Id = 1,
                     StartTime = DateTime.Now,
                     Title = "Afspraak met verpleging"
                 }

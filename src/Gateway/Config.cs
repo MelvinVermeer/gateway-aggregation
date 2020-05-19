@@ -21,6 +21,6 @@ namespace Gateway
                 }
             };
 
-        public const string AppointmentCombingStrategy = "merge"; // concat | merge
+        public const string AppointmentCombingStrategy = "concat"; // concat | merge
     }
 }
