@@ -6,12 +6,28 @@ namespace Aggregator
 {
     public class AppointmentAggregator
     {
-        public IEnumerable<Appointment> GetAppointments(IEnumerable<IReturnAppointments> appointmentEndpoints)
+        private IAppointmentCombiningStrategy _strategy;
+
+        public AppointmentAggregator(IAppointmentCombiningStrategy strategy)
         {
-            // Simply concat the results of all the endpoints
-            return appointmentEndpoints.SelectMany(x => x.Get());
+            _strategy = strategy;
         }
 
-        // todo : how would we implement if we need to merge information of appointments.
+        public AppointmentAggregator()
+        {
+            // empty constructor to express the fact that combining strategy is optional
+        }
+
+        public IEnumerable<Appointment> GetAppointments(IEnumerable<IReturnAppointments> endpoints)
+        {
+            var appointments = endpoints.SelectMany(x => x.Get());
+
+            if (_strategy == null)
+            {
+                return appointments;
+            }
+
+            return _strategy.Combine(appointments);
+        }
     }
 }
