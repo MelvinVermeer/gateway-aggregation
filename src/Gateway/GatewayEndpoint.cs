@@ -18,6 +18,15 @@ namespace Gateway
             return Config.Features.Any(x => x.Name == feature);
         }
 
+        // lists the supported appointment 'combining' strategies
+        // the strategy can be selected in the config
+        private static Dictionary<string, IAppointmentCombiningStrategy> _appointmentCombiningStrategies =
+            new Dictionary<string, IAppointmentCombiningStrategy>()
+            {
+                { "concat", new ConcatAppointmentsStrategy() },
+                { "merge", new MergeAppointmentsStrategy() },
+            };
+
         public static IEnumerable<Appointment> GetAppointments()
         {
             if (!ImplementsFeature("appointments"))
@@ -30,7 +39,8 @@ namespace Gateway
                 .SelectMany(x => x.Endpoints)
                 .Select(x => x as IReturnAppointments);
 
-            AppointmentAggregator aggregator = new AppointmentAggregator();
+            var strategy = _appointmentCombiningStrategies[Config.AppointmentCombingStrategy];
+            var aggregator = new AppointmentAggregator(strategy);
 
             return aggregator.GetAppointments(appointmentEndpoints);
         }

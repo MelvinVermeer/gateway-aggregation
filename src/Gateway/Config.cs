@@ -20,5 +20,7 @@ namespace Gateway
                     }
                 }
             };
+
+        public const string AppointmentCombingStrategy = "merge"; // concat | merge
     }
 }
