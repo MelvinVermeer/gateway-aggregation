@@ -9,8 +9,8 @@ Make sure you have .net core 3.1
 
 ```
 git clone https://github.com/MelvinVermeer/gateway-aggregation.git
-cd .\gateway-aggregation\samples\client
-dotnet run
+cd gateway-aggregation
+dotnet run --project .\samples\Client\Client.csproj
 ```
 
 Expected output
