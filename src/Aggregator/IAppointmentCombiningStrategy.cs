@@ -5,6 +5,9 @@ namespace Aggregator
 {
     public interface IAppointmentCombiningStrategy
     {
-        IEnumerable<Appointment> Combine(IEnumerable<Appointment> appointments);
+        /// <summary>
+        /// the keys of the dictionary represent the type/providername
+        /// </summary>
+        IEnumerable<Appointment> Combine(Dictionary<string, IEnumerable<Appointment>> appointments);
     }
 }

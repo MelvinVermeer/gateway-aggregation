@@ -15,17 +15,13 @@ namespace Aggregator
 
         public AppointmentAggregator()
         {
-            // empty constructor to express the fact that combining strategy is optional
+            // default simple concat strategy
+            _strategy = new ConcatAppointmentsStrategy();
         }
 
         public IEnumerable<Appointment> GetAppointments(IEnumerable<IReturnAppointments> endpoints)
         {
-            var appointments = endpoints.SelectMany(x => x.Get());
-
-            if (_strategy == null)
-            {
-                return appointments;
-            }
+            var appointments = endpoints.ToDictionary(x => x.GetType().ToString(), x => x.Get());
 
             return _strategy.Combine(appointments);
         }
