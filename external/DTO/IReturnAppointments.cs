@@ -6,6 +6,6 @@ namespace DTO
 
     public interface IReturnAppointments : IEndpoint
     {
-        public IEnumerable<Appointment> Get();
+        IEnumerable<Appointment> Get();
     }
 }

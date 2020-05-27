@@ -10,14 +10,10 @@ namespace Aggregator
 
         public AppointmentAggregator(IAppointmentCombiningStrategy strategy)
         {
-            _strategy = strategy;
+            _strategy = strategy ?? new ConcatAppointmentsStrategy(); // if null, use default strategy
         }
 
-        public AppointmentAggregator()
-        {
-            // default simple concat strategy
-            _strategy = new ConcatAppointmentsStrategy();
-        }
+        public AppointmentAggregator() : this(null) { }
 
         public IEnumerable<Appointment> GetAppointments(IEnumerable<IReturnAppointments> endpoints)
         {

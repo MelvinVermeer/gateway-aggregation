@@ -1,26 +1,27 @@
-﻿using DTO;
-using Ehr.ProviderA;
-using Ehr.ProviderB;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 
 namespace Gateway
 {
     public static class Config
     {
-        public static readonly IEnumerable<Feature> Features =
-            new[]
+        public static readonly IEnumerable<DataProvider> DataProviders =
+        new[]
+        {
+            new DataProvider
             {
-                new Feature
-                {
-                    Name = "appointments",
-                    Endpoints = new List<IEndpoint>
-                    {
-                        new AppointmentRepository(),
-                        new AppointmentService()
-                    }
-                }
-            };
+                Type = "Ehr.ProviderA.ProviderARepository, Ehr.ProviderA",
+                UseForEntityTypes = new[] {"appointment", "patient"}
+            },
+             new DataProvider
+            {
+                Type = "Ehr.ProviderB.AppointmentService, Ehr.ProviderB",
+                UseForEntityTypes = new[] {"appointment"}
+            }
+        };
 
-        public const string AppointmentCombingStrategy = "concat"; // concat | merge
+        public static readonly IEnumerable<string> UseStrategies = new[]
+        { 
+            "ConcatAppointmentsStrategy"
+        };
     }
 }

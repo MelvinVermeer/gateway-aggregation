@@ -7,15 +7,15 @@ namespace Client
     {
         static void Main(string[] args)
         {
-            var features = GatewayEndpoint.GetAvailableFeatures();
+            var entityTypes = GatewayEndpoint.GetAvailableEntityTypes();
 
-            Console.WriteLine("I Support the following features");
-            foreach (var feature in features)
+            Console.WriteLine("I Support the following entity types");
+            foreach (var entityType in entityTypes)
             {
-                Console.WriteLine(feature);
+                Console.WriteLine(entityType);
             }
 
-            if (GatewayEndpoint.ImplementsFeature("appointments")) 
+            if (GatewayEndpoint.CanReturnEntityOfType("appointment")) 
             {
                 var appointments = GatewayEndpoint.GetAppointments();
                 Console.WriteLine("I know the following appointments");

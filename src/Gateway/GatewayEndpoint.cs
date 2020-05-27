@@ -8,40 +8,27 @@ namespace Gateway
 {
     public static class GatewayEndpoint
     {
-        public static IEnumerable<string> GetAvailableFeatures()
+        public static IEnumerable<string> GetAvailableEntityTypes()
         {
-            return Config.Features.Select(x => x.Name);
+            return Config.DataProviders.SelectMany(x => x.UseForEntityTypes).Distinct();
         }
 
-        public static bool ImplementsFeature(string feature)
+        public static bool CanReturnEntityOfType(string entityType)
         {
-            return Config.Features.Any(x => x.Name == feature);
+            return Config.DataProviders.Any(x => x.UseForEntityTypes.Contains(entityType));
         }
 
-        // lists the supported appointment 'combining' strategies
-        // the strategy can be selected in the config
-        private static Dictionary<string, IAppointmentCombiningStrategy> _appointmentCombiningStrategies =
-            new Dictionary<string, IAppointmentCombiningStrategy>()
-            {
-                { "concat", new ConcatAppointmentsStrategy() },
-                { "merge", new MergeAppointmentsStrategy() },
-            };
-
-        public static IEnumerable<Appointment> GetAppointments()
+        public static IEnumerable<Appointment> GetAppointments() // http endpoint
         {
-            if (!ImplementsFeature("appointments"))
+            if (!CanReturnEntityOfType("appointment"))
             {
                 throw new NotImplementedException();
             }
 
-            IEnumerable<IReturnAppointments> appointmentEndpoints = Config.Features
-                .Where(x => x.Name == "appointments")
-                .SelectMany(x => x.Endpoints)
-                .Select(x => x as IReturnAppointments);
+            var appointmentEndpoints = EndpointFactory.CreateEndpoints<IReturnAppointments>("appointment");
+            var strategy = StrategyFactory.CreateStrategy<IAppointmentCombiningStrategy>(Config.UseStrategies);
 
-            var strategy = _appointmentCombiningStrategies[Config.AppointmentCombingStrategy];
             var aggregator = new AppointmentAggregator(strategy);
-
             return aggregator.GetAppointments(appointmentEndpoints);
         }
     }

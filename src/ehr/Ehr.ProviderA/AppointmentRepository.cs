@@ -4,9 +4,9 @@ using System.Collections.Generic;
 
 namespace Ehr.ProviderA
 {
-    public class AppointmentRepository : IReturnAppointments 
+    public partial class ProviderARepository : IReturnEverything
     {
-        public IEnumerable<Appointment> Get()
+        IEnumerable<Appointment> IReturnAppointments.Get()
         {
             return new List<Appointment>
             {
